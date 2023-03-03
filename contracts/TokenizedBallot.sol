@@ -11,9 +11,10 @@ contract Ballot {
         uint voteCount; 
     }
 
+    uint256 public targetBlockNumber;
     IMyToken public tokenContract;
     Proposal[] public proposals;
-    constructor(bytes32[] memory proposalNames, address _tokenContract) {
+    constructor(bytes32[] memory proposalNames, address _tokenContract, uint256 _targetBlockNumber) {
         tokenContract = IMyToken(_tokenContract);
         for (uint i = 0; i < proposalNames.length; i++) {
             proposals.push(Proposal({ name: proposalNames[i], voteCount: 0 }));
@@ -21,13 +22,13 @@ contract Ballot {
     }
 
     function vote(uint proposal, uint256 amount) external {
-        uint256 temp_VotingPower = 0;     // TODO replace temp_voting power
-        require(temp_VotingPower >= amount);
+        require(votingPower(msg.sender) >= amount);
         proposals[proposal].voteCount += amount; 
     }
 
     function votingPower(address account) public view returns (uint256) {
-        
+        // performing an external call to get the voting power
+        return tokenContract.getPastVotes(account, blockNumber);
     }
 
     function winningProposal() public view
