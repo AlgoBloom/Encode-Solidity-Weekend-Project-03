@@ -21,9 +21,13 @@ contract Ballot {
     }
 
     function vote(uint proposal, uint256 amount) external {
-        //TODO
-        // require the msg.sender to have at least amount voting power
-        // be able to vote for different proposals up to the total amount of voting power held
+        uint256 temp_VotingPower = 0;     // TODO replace temp_voting power
+        require(temp_VotingPower >= amount);
+        proposals[proposal].voteCount += amount; 
+    }
+
+    function votingPower(address account) public view returns (uint256) {
+        
     }
 
     function winningProposal() public view
