@@ -12,4 +12,4 @@ npx hardhat node
 npx hardhat run scripts/deploy.ts
 ```
 
-yarn run ts-node --files ./scripts/TokenizedBallot.ts "arg1" "arg2" "arg3"
+yarn run ts-node --files ./scripts/TokenizedBallot.ts "strawberry" "caramel" "chocolate"

@@ -80,10 +80,15 @@ async function main () {
     console.log({deployTxReceipt});
 
                     // 3. CASTING VOTES
-    const voteTx1 = await ballotContract.vote(proposals[0], ethers.utils.formatEther(5));
+    // account1 casts one vote for strawberry, the 0 indexed arg
+    console.log("Account 1 votes once for strawberry")
+    const voteTx1 = await ballotContract.connect(account1).vote(0, 1);
     console.log({voteTx1})
 
                     // 4. CHECKING VOTE POWER
+    // checks voting power spent for account 1
+    let votingPowerRemainingAcct1 = ballotContract.connect(account1).votingPower(account1.address);
+
 
                     // 5. QUERYING RESULTS
 
