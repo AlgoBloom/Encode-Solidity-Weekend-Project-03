@@ -12,12 +12,16 @@ function convertStringArrayToBytes32(array: string[]) {
   }
 
 async function main () {
+
     const [deployer, account1, account2] = await ethers.getSigners();
     // Deploy the contract
     const contractFactory = new MyToken__factory(deployer);
     const contract: MyToken = await contractFactory.deploy();
     const deployTransactionReceipt = await contract.deployTransaction.wait();
     console.log(`The Tokenized Vote Contract was deployed at the block ${deployTransactionReceipt.blockNumber}`);
+
+                    // 1. GIVE VOTING TOKENS
+
     // Mint some tokens for account 1
     const mintTx = await contract.mint(account1.address, MINT_VALUE);
     const mintTxReceipt = await mintTx.wait();
@@ -27,6 +31,9 @@ async function main () {
     // Check voting power for the first time, before delegation
     let votePowerAccount1 = await contract.getVotes(account1.address);
     console.log(`Account 1 has a vote power of ${ethers.utils.formatEther(votePowerAccount1)} units`);
+
+                    // 2. DELEGATING VOTING POWER
+
     // Self delegate to create checkpoint and grant voting power (delegates everything we have)
     const delegateTx = await contract.connect(account1).delegate(account1.address);
     const delegateTxReceipt = await delegateTx.wait();
@@ -41,7 +48,6 @@ async function main () {
     // Check voting power for the third time, after transfer
     votePowerAccount1 = await contract.getVotes(account1.address);
     console.log(`Account 1 has a vote power of ${ethers.utils.formatEther(votePowerAccount1)} units`);
-
     // Mint some tokens for account 2
     const mintTx2 = await contract.mint(account2.address, MINT_VALUE);
     const mintTxReceipt2 = await mintTx2.wait();
@@ -51,13 +57,11 @@ async function main () {
     // What block am I at?
     const currentBlock = await ethers.provider.getBlock("latest");
     console.log(`The current block number is ${currentBlock.number}`)
-
     // Check the historical voting power
     votePowerAccount1 = await contract.getPastVotes(account1.address, currentBlock.number - 1);
     console.log(`Account 1 had a vote power of ${ethers.utils.formatEther(votePowerAccount1)} units at block ${currentBlock.number - 1}`);
     votePowerAccount1 = await contract.getPastVotes(account1.address, currentBlock.number - 2);
     console.log(`Account 1 had a vote power of ${ethers.utils.formatEther(votePowerAccount1)} units at block ${currentBlock.number - 2}`);
-
     // accepts arguments from the command line
     const args = process.argv;
     const proposals = args.slice(2);
@@ -74,6 +78,14 @@ async function main () {
     const deployTxReceipt = await ballotContract.deployTransaction.wait();
     console.log(`The Ballot contract was deployed at the address ${ballotContract.address}`);
     console.log({deployTxReceipt});
+
+                    // 3. CASTING VOTES
+    const voteTx1 = await ballotContract.vote(proposals[0], ethers.utils.formatEther(5));
+    console.log({voteTx1})
+
+                    // 4. CHECKING VOTE POWER
+
+                    // 5. QUERYING RESULTS
 
 }
 
