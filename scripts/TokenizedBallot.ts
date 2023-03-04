@@ -82,14 +82,13 @@ async function main () {
                     // 3. CASTING VOTES
     // account1 casts one vote for strawberry, the 0 indexed arg
     console.log("Account 1 votes once for strawberry")
-    const voteTx1 = await ballotContract.connect(account1).vote(0, 1);
+    const voteTx1 = await ballotContract.connect(account1).vote(0, ethers.utils.parseEther("1"));
     console.log({voteTx1})
 
                     // 4. CHECKING VOTE POWER
     // checks voting power spent for account 1
-    let votingPowerRemainingAcct1 = ballotContract.connect(account1).votingPower(account1.address);
-
-
+    let votingPowerRemainingAcct1 = await ballotContract.connect(account1).votingPower(account1.address);
+    console.log(`account1 has a remaining voting power of ${votingPowerRemainingAcct1}`)
                     // 5. QUERYING RESULTS
 
 }
