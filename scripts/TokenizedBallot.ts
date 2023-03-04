@@ -13,6 +13,7 @@ function convertStringArrayToBytes32(array: string[]) {
 
 async function main () {
 
+    // get test accounts
     const [deployer, account1, account2] = await ethers.getSigners();
     // Deploy the contract
     const contractFactory = new MyToken__factory(deployer);
@@ -80,17 +81,26 @@ async function main () {
     console.log({deployTxReceipt});
 
                     // 3. CASTING VOTES
+
     // account1 casts one vote for strawberry, the 0 indexed arg
-    console.log("Account 1 votes once for strawberry")
-    const voteTx1 = await ballotContract.connect(account1).vote(0, ethers.utils.parseEther("1"));
-    console.log({voteTx1})
+    console.log("Account 1 votes twice for strawberry")
+    const voteTx1 = await ballotContract.connect(account1).vote(0, ethers.utils.parseEther("2"));
+    // account1 casts one vote for chocolate, the 2 indexed arg
+    console.log("Account 1 votes once for chocolate")
+    const voteTx2 = await ballotContract.connect(account1).vote(2, ethers.utils.parseEther("1"));
 
                     // 4. CHECKING VOTE POWER
+
     // checks voting power spent for account 1
     let votingPowerRemainingAcct1 = await ballotContract.connect(account1).votingPower(account1.address);
     console.log(`account1 has a remaining voting power of ${votingPowerRemainingAcct1}`)
+
                     // 5. QUERYING RESULTS
 
+    // checks the winner
+    const winner = await ballotContract.winnerName();
+    const winnerFormatted = ethers.utils.parseBytes32String(winner);
+    console.log(`The winner is ${winnerFormatted}!`)
 }
 
 main().catch((error) => {
