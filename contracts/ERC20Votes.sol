@@ -19,7 +19,7 @@ contract MyToken is ERC20, AccessControl, ERC20Permit, ERC20Votes {
     }
   
     function addMinter(address minter) public onlyRole(DEFAULT_ADMIN_ROLE) {
-        grantRole(MINTER_ROLE, minter);
+        _grantRole(MINTER_ROLE, minter);
     }
 
     // The following functions are overrides required by Solidity.
