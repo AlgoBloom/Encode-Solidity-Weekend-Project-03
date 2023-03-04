@@ -26,6 +26,14 @@ async function main () {
     // Check voting power for the second time, after delegation
     votePowerAccount1 = await contract.getVotes(account1.address);
     console.log(`Account 1 has a vote power of ${ethers.utils.formatEther(votePowerAccount1)} units`);
+    // Transfer Tokens from account 1 to 2
+    const transferTx = await contract.connect(account1).transfer(account2.address, MINT_VALUE.div(2));
+    const transferTxReceipt = await transferTx.wait();
+    console.log(`Tokens transferred from ${account1.address} for ${account2.address} at block ${transferTxReceipt.blockNumber}`);
+    // Check voting power for the third time, after transfer
+    votePowerAccount1 = await contract.getVotes(account1.address);
+    console.log(`Account 1 has a vote power of ${ethers.utils.formatEther(votePowerAccount1)} units`);
+
     // Mint some tokens for account 2
     const mintTx2 = await contract.mint(account2.address, MINT_VALUE);
     const mintTxReceipt2 = await mintTx2.wait();
@@ -36,6 +44,11 @@ async function main () {
     const currentBlock = await ethers.provider.getBlock("latest");
     console.log(`The current block number is ${currentBlock.number}`)
 
+    // Check the historical voting power
+    votePowerAccount1 = await contract.getPastVotes(account1.address, currentBlock.number - 1);
+    console.log(`Account 1 had a vote power of ${ethers.utils.formatEther(votePowerAccount1)} units at block ${currentBlock.number - 1}`);
+    votePowerAccount1 = await contract.getPastVotes(account1.address, currentBlock.number - 2);
+    console.log(`Account 1 had a vote power of ${ethers.utils.formatEther(votePowerAccount1)} units at block ${currentBlock.number - 2}`);
 
 }
 
