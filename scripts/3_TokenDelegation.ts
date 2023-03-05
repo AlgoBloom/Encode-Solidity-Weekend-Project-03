@@ -1,15 +1,21 @@
-// WORK IN PROGRESS //
-
-import { MyToken, MyToken__factory } from "../typechain-types";
+import { MyToken, Ballot__factory } from "../typechain-types";
 import { ethers, Wallet } from 'ethers';
 import * as dotenv from 'dotenv';
-import { token } from "../typechain-types/@openzeppelin/contracts";
-import { waitForDebugger } from "inspector";
 dotenv.config();
 
 const MINT_VALUE = ethers.utils.parseEther("10");
 
 const TOKEN_CONTRACT_ADDRESS = "0xC9284c151C922B5BB2EB5fe0c1E603d551C55e94";
+
+const TARGET_BLOCK_NUMBER = "8600447";
+
+function convertStringArrayToBytes32(array: string[]) {
+    const bytes32Array = [];
+    for (let index = 0; index < array.length; index++) {
+        bytes32Array.push(ethers.utils.formatBytes32String(array[index]));
+    }
+    return bytes32Array;
+  }
 
 async function main () {
     
@@ -26,7 +32,7 @@ async function main () {
     // instantiate wallet for Hardeep
     const Hardeep_Pk = process.env.PRIVATE_KEY_HARDEEP;
     if(!Hardeep_Pk || Hardeep_Pk.length <= 0) throw new Error("Missing environment: private key for Hardeep");
-    const walletHardeep = new ethers.Wallet(Hardeep_Pk);
+    const walletHardeep = new ethers.Wallet(Joshua_Pk);
     console.log(`Connected to Hardeep's wallet address: ${walletHardeep.address}`);
     // instantiate wallet for Chris
     const Chris_Pk = process.env.PRIVATE_KEY_CHRIS;
@@ -46,7 +52,7 @@ async function main () {
     // instantiate wallet for Josh
     const Josh_Pk = process.env.PRIVATE_KEY_JOSH;
     if(!Josh_Pk || Josh_Pk.length <= 0) throw new Error("Missing environment: private key for Josh");
-    const walletJosh = new ethers.Wallet(Josh_Pk);
+    const walletJosh = new ethers.Wallet(Owen_Pk);
     console.log(`Connected to Josh's wallet address: ${walletJosh.address}`);
                     
                     // 2. CREATE SIGNERS FROM WALLET
@@ -58,78 +64,24 @@ async function main () {
     const signerOwen = walletOwen.connect(provider);
     const signerJosh = walletJosh.connect(provider);
 
-                    // 3. ATTACH CONTRACT
+                    // 3. DEPLOY BALLOT CONTRACT
 
-    // Joshua attaches to the contract and instantiates it
-    const tokenContractFactory = new MyToken__factory(signerJoshua);
-    console.log("Attaching to contract ...");
-    const tokenContract = tokenContractFactory.attach(TOKEN_CONTRACT_ADDRESS);
-    console.log(`Attached to MyToken contract at ${tokenContract.address}`);
+    // accepts arguments from the command line
+    const args = process.argv;
+    const proposals = args.slice(2);
+    if (proposals.length <= 0) throw new Error("Missing parameters: proposals");
 
-                    // 4. DELEGATE TOKENS FOR VOTING POWER
-
-    // Check voting power for Joshua before delegation
-    let votingPowerJoshua = await tokenContract.getVotes(walletJoshua.address);
-    console.log(`Joshua has a vote power of ${ethers.utils.formatEther(votingPowerJoshua)} units`);
-    // Check voting power for Hardeep before delegation
-    let votingPowerHardeep = await tokenContract.connect(signerHardeep).getVotes(walletHardeep.address);
-    console.log(`Hardeep has a vote power of ${ethers.utils.formatEther(votingPowerHardeep)} units`);
-    // Check voting power for Chris before delegation
-    let votingPowerChris = await tokenContract.connect(signerChris).getVotes(walletChris.address);
-    console.log(`Chris has a vote power of ${ethers.utils.formatEther(votingPowerChris)} units`);
-    // Check voting power for Lindsay before delegation
-    let votingPowerLindsay = await tokenContract.connect(signerLindsay).getVotes(walletLindsay.address);
-    console.log(`Lindsay has a vote power of ${ethers.utils.formatEther(votingPowerLindsay)} units`);
-    // Check voting power for Owen before delegation
-    let votingPowerOwen = await tokenContract.connect(signerOwen).getVotes(walletOwen.address);
-    console.log(`Owen has a vote power of ${ethers.utils.formatEther(votingPowerOwen)} units`);
-    // Check voting power for Josh before delegation
-    let votingPowerJosh = await tokenContract.connect(signerJosh).getVotes(walletJosh.address);
-    console.log(`Josh has a vote power of ${ethers.utils.formatEther(votingPowerJosh)} units`);
-
-    // Self delegate for Joshua to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxJoshua = await tokenContract.delegate(walletJoshua.address);
-    const delegateTxReceiptJoshua = await delegateTxJoshua.wait();
-    console.log(`Tokens delegated for ${walletJoshua.address} at block: ${delegateTxReceiptJoshua.blockNumber}`);
-    // Self delegate for Hardeep to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxHardeep = await tokenContract.connect(signerHardeep).delegate(walletHardeep.address);
-    const delegateTxReceiptHardeep = await delegateTxHardeep.wait();
-    console.log(`Tokens delegated for ${walletHardeep.address} at block: ${delegateTxReceiptHardeep.blockNumber}`);
-    // Self delegate for Chris to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxChris = await tokenContract.connect(signerChris).delegate(walletChris.address);
-    const delegateTxReceiptChris = await delegateTxChris.wait();
-    console.log(`Tokens delegated for ${walletChris.address} at block: ${delegateTxReceiptChris.blockNumber}`);
-    // Self delegate for Lindsay to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxLindsay = await tokenContract.connect(signerLindsay).delegate(walletLindsay.address);
-    const delegateTxReceiptLindsay = await delegateTxLindsay.wait();
-    console.log(`Tokens delegated for ${walletLindsay.address} at block: ${delegateTxReceiptLindsay.blockNumber}`);
-    // Self delegate for Owen to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxOwen = await tokenContract.connect(signerOwen).delegate(walletOwen.address);
-    const delegateTxReceiptOwen = await delegateTxOwen.wait();
-    console.log(`Tokens delegated for ${walletOwen.address} at block: ${delegateTxReceiptOwen.blockNumber}`);
-    // Self delegate for Josh to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxJosh = await tokenContract.connect(signerJosh).delegate(walletJosh.address);
-    const delegateTxReceiptJosh = await delegateTxJosh.wait();
-    console.log(`Tokens delegated for ${walletJosh.address} at block: ${delegateTxReceiptJosh.blockNumber}`);
-
-    // Check voting power for Joshua before delegation
-    votingPowerJoshua = await tokenContract.getPastVotes(walletJoshua.address, delegateTxReceiptJoshua.blockNumber);
-    console.log(`Joshua has a vote power of ${ethers.utils.formatEther(votingPowerJoshua)} units`);
-    // Check voting power for Hardeep before delegation
-    votingPowerHardeep = await tokenContract.getPastVotes(walletHardeep.address, delegateTxReceiptHardeep.blockNumber);
-    console.log(`Hardeep has a vote power of ${ethers.utils.formatEther(votingPowerHardeep)} units`);
-    // Check voting power for Chris after delegation
-    votingPowerChris = await tokenContract.getPastVotes(walletChris.address, delegateTxReceiptChris.blockNumber);
-    console.log(`Chris has a vote power of ${ethers.utils.formatEther(votingPowerChris)} units`);
-    // Check voting power for Lindsay after delegation
-    votingPowerLindsay = await tokenContract.getPastVotes(walletLindsay.address, delegateTxReceiptLindsay.blockNumber);
-    console.log(`Lindsay has a vote power of ${ethers.utils.formatEther(votingPowerLindsay)} units`);
-    // Check voting power for Owen after delegation
-    votingPowerOwen = await tokenContract.getPastVotes(walletOwen.address, delegateTxReceiptOwen.blockNumber);
-    console.log(`Owen has a vote power of ${ethers.utils.formatEther(votingPowerOwen)} units`);
-    // Check voting power for Josh after delegation
-    votingPowerJosh = await tokenContract.getPastVotes(walletJosh.address, delegateTxReceiptJosh.blockNumber);
-    console.log(`Josh has a vote power of ${ethers.utils.formatEther(votingPowerJosh)} units`);
+    // deploy the ballot contract
+    console.log("Deploying Ballot contract!");
+    console.log("Proposals: ");
+    proposals.forEach((element, index) => {
+        console.log(`Proposal N. ${index + 1}: ${element}`);
+    });
+    const ballotContractFactory = new Ballot__factory(signerJoshua);
+    console.log("Deploying contract ...");
+    const ballotContract = await ballotContractFactory.deploy(convertStringArrayToBytes32(proposals), TOKEN_CONTRACT_ADDRESS, TARGET_BLOCK_NUMBER);
+    const deployTxReceipt = await ballotContract.deployTransaction.wait();
+    console.log(`The Ballot contract was deployed at the address ${ballotContract.address}`);
 
 }
 
