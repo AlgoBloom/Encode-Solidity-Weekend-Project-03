@@ -13,7 +13,7 @@ const TOKEN_CONTRACT_ADDRESS = "0x62e1B19944b55022988F94687c1097fCe1F23a1d";
 async function main () {
     
     // gets the goerli provider
-    const provider = ethers.getDefaultProvider("goerli");
+    const provider = new ethers.providers.AlchemyProvider("goerli", process.env.ALCHEMY_API_KEY);
 
                     // 1. CONNECT ALL TEAM 4 TEST WALLETS
 
@@ -65,14 +65,13 @@ async function main () {
     const tokenContract = tokenContractFactory.attach(TOKEN_CONTRACT_ADDRESS);
     console.log(`Attached to MyToken contract at ${tokenContract.address}`);
 
-
                     // 4. DELEGATE TOKENS FOR VOTING POWER
 
     // Check voting power for Joshua before delegation
     let votingPowerJoshua = await tokenContract.getVotes(walletJoshua.address);
     console.log(`Joshua has a vote power of ${ethers.utils.formatEther(votingPowerJoshua)} units`);
     // Check voting power for Hardeep before delegation
-    let votingPowerHardeep = await tokenContract.getVotes(walletJoshua.address);
+    let votingPowerHardeep = await tokenContract.getVotes(walletHardeep.address);
     console.log(`Hardeep has a vote power of ${ethers.utils.formatEther(votingPowerHardeep)} units`);
     // Check voting power for Chris before delegation
     let votingPowerChris = await tokenContract.getVotes(walletChris.address);
@@ -88,27 +87,27 @@ async function main () {
     console.log(`Josh has a vote power of ${ethers.utils.formatEther(votingPowerJosh)} units`);
 
     // Self delegate for Joshua to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxJoshua = await tokenContract.connect(walletJoshua).delegate(walletJoshua.address);
+    const delegateTxJoshua = await tokenContract.delegate(walletJoshua.address);
     const delegateTxReceiptJoshua = await delegateTxJoshua.wait();
     console.log(`Tokens delegated for ${walletJoshua.address} at block: ${delegateTxReceiptJoshua.blockNumber}`);
     // Self delegate for Hardeep to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxHardeep = await tokenContract.connect(walletHardeep).delegate(walletHardeep.address);
+    const delegateTxHardeep = await tokenContract.delegate(walletHardeep.address);
     const delegateTxReceiptHardeep = await delegateTxHardeep.wait();
     console.log(`Tokens delegated for ${walletHardeep.address} at block: ${delegateTxReceiptHardeep.blockNumber}`);
     // Self delegate for Chris to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxChris = await tokenContract.connect(walletChris).delegate(walletChris.address);
+    const delegateTxChris = await tokenContract.delegate(walletChris.address);
     const delegateTxReceiptChris = await delegateTxChris.wait();
     console.log(`Tokens delegated for ${walletChris.address} at block: ${delegateTxReceiptChris.blockNumber}`);
     // Self delegate for Lindsay to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxLindsay = await tokenContract.connect(walletLindsay).delegate(walletLindsay.address);
+    const delegateTxLindsay = await tokenContract.delegate(walletLindsay.address);
     const delegateTxReceiptLindsay = await delegateTxLindsay.wait();
     console.log(`Tokens delegated for ${walletLindsay.address} at block: ${delegateTxReceiptLindsay.blockNumber}`);
     // Self delegate for Owen to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxOwen = await tokenContract.connect(walletOwen).delegate(walletOwen.address);
+    const delegateTxOwen = await tokenContract.delegate(walletOwen.address);
     const delegateTxReceiptOwen = await delegateTxOwen.wait();
     console.log(`Tokens delegated for ${walletOwen.address} at block: ${delegateTxReceiptOwen.blockNumber}`);
     // Self delegate for Josh to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxJosh = await tokenContract.connect(walletJosh).delegate(walletJosh.address);
+    const delegateTxJosh = await tokenContract.delegate(walletJosh.address);
     const delegateTxReceiptJosh = await delegateTxJosh.wait();
     console.log(`Tokens delegated for ${walletJosh.address} at block: ${delegateTxReceiptJosh.blockNumber}`);
 
@@ -116,7 +115,7 @@ async function main () {
     votingPowerJoshua = await tokenContract.getVotes(walletJoshua.address);
     console.log(`Joshua has a vote power of ${ethers.utils.formatEther(votingPowerJoshua)} units`);
     // Check voting power for Hardeep before delegation
-    votingPowerHardeep = await tokenContract.getVotes(walletJoshua.address);
+    votingPowerHardeep = await tokenContract.getVotes(walletHardeep.address);
     console.log(`Hardeep has a vote power of ${ethers.utils.formatEther(votingPowerHardeep)} units`);
     // Check voting power for Chris after delegation
     votingPowerChris = await tokenContract.getVotes(walletChris.address);

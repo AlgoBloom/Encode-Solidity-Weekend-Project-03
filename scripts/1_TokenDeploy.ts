@@ -16,7 +16,7 @@ function convertStringArrayToBytes32(array: string[]) {
 async function main () {
     
     // gets the goerli provider
-    const provider = ethers.getDefaultProvider("goerli");
+    const provider = new ethers.providers.AlchemyProvider("goerli", process.env.ALCHEMY_API_KEY);
 
                     // 1. CONNECT ALL TEAM 4 TEST WALLETS
 

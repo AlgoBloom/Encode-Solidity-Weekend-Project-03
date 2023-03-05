@@ -4,13 +4,9 @@ require("dotenv").config();
 
 const TOKEN_CONTRACT_ADDRESS = "0x62e1B19944b55022988F94687c1097fCe1F23a1d";
 
+const MINT_VALUE = ethers.utils.parseEther("10");
+
 async function main() {
-    // Accept and validate address input - only one address at a time
-    const args = process.argv;
-    const argValues = args.slice(2);
-    if (argValues.length <= 0) throw new Error("Missing mint quantity");
-    const quantity = ethers.utils.parseEther(argValues[0]);
-    console.log(`Mint quantity is: ${ethers.utils.formatEther(quantity)}`);
 
     const provider = new ethers.providers.AlchemyProvider("goerli", process.env.ALCHEMY_API_KEY);
 
@@ -65,42 +61,42 @@ async function main() {
 
     // 4. MINTING TOKENS
     console.log(`Minting tokens for ${signerJoshua.address}`);
-    let mintTx = await tokenContract.mint(signerJoshua.address, quantity);
+    let mintTx = await tokenContract.mint(signerJoshua.address, MINT_VALUE);
     let mintTxReceipt = await mintTx.wait();
     console.log(`Minted tokens for ${signerJoshua.address} at block ${mintTxReceipt.blockNumber}`);
     let tokenBalanceAccount = await tokenContract.balanceOf(signerJoshua.address);
     console.log(`Address ${signerJoshua.address} has a balance of ${ethers.utils.formatEther(tokenBalanceAccount)}\n`);
     
     console.log(`Minting tokens for ${signerHardeep.address}`);
-    mintTx = await tokenContract.mint(signerHardeep.address, quantity);
+    mintTx = await tokenContract.mint(signerHardeep.address, MINT_VALUE);
     mintTxReceipt = await mintTx.wait();
     console.log(`Minted tokens for ${signerHardeep.address} at block ${mintTxReceipt.blockNumber}`);
     tokenBalanceAccount = await tokenContract.balanceOf(signerHardeep.address);
     console.log(`Address ${signerHardeep.address} has a balance of ${ethers.utils.formatEther(tokenBalanceAccount)}\n`);
 
     console.log(`Minting tokens for ${signerChris.address}`);
-    mintTx = await tokenContract.mint(signerChris.address, quantity);
+    mintTx = await tokenContract.mint(signerChris.address, MINT_VALUE);
     mintTxReceipt = await mintTx.wait();
     console.log(`Minted tokens for ${signerChris.address} at block ${mintTxReceipt.blockNumber}`);
     tokenBalanceAccount = await tokenContract.balanceOf(signerChris.address);
     console.log(`Address ${signerChris.address} has a balance of ${ethers.utils.formatEther(tokenBalanceAccount)}\n`);
 
     console.log(`Minting tokens for ${signerLindsay.address}`);
-    mintTx = await tokenContract.mint(signerLindsay.address, quantity)
+    mintTx = await tokenContract.mint(signerLindsay.address, MINT_VALUE)
     mintTxReceipt = await mintTx.wait();
     console.log(`Minted tokens for ${signerLindsay.address} at block ${mintTxReceipt.blockNumber}`);
     tokenBalanceAccount = await tokenContract.balanceOf(signerLindsay.address);
     console.log(`Address ${signerLindsay.address} has a balance of ${ethers.utils.formatEther(tokenBalanceAccount)}\n`);
 
     console.log(`Minting tokens for ${signerOwen.address}`);
-    mintTx = await tokenContract.mint(signerOwen.address, quantity);
+    mintTx = await tokenContract.mint(signerOwen.address, MINT_VALUE);
     mintTxReceipt = await mintTx.wait();
     console.log(`Minted tokens for ${signerOwen.address} at block ${mintTxReceipt.blockNumber}`);
     tokenBalanceAccount = await tokenContract.balanceOf(signerOwen.address);
     console.log(`Address ${signerOwen.address} has a balance of ${ethers.utils.formatEther(tokenBalanceAccount)}\n`);
 
     console.log(`Minting tokens for ${signerJosh.address}`);
-    mintTx = await tokenContract.mint(signerJosh.address, quantity);
+    mintTx = await tokenContract.mint(signerJosh.address, MINT_VALUE);
     mintTxReceipt = await mintTx.wait();
     console.log(`Minted tokens for ${signerJosh.address} at block ${mintTxReceipt.blockNumber}`);
     tokenBalanceAccount = await tokenContract.balanceOf(signerJosh.address);
