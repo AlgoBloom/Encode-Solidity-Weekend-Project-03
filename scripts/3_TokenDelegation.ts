@@ -8,7 +8,7 @@ dotenv.config();
 
 const MINT_VALUE = ethers.utils.parseEther("10");
 
-const TOKEN_CONTRACT_ADDRESS = "0x62e1B19944b55022988F94687c1097fCe1F23a1d";
+const TOKEN_CONTRACT_ADDRESS = "0x907a1081532193BD81F91fb6FbAd979Bb408dda3";
 
 async function main () {
     

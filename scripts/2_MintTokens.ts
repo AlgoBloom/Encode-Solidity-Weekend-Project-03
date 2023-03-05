@@ -2,7 +2,7 @@ import { ethers } from "hardhat";
 import { MyToken__factory } from "../typechain-types";
 require("dotenv").config();
 
-const TOKEN_CONTRACT_ADDRESS = "0x62e1B19944b55022988F94687c1097fCe1F23a1d";
+const TOKEN_CONTRACT_ADDRESS = "0x907a1081532193BD81F91fb6FbAd979Bb408dda3";
 
 const MINT_VALUE = ethers.utils.parseEther("10");
 
@@ -60,6 +60,8 @@ async function main() {
     console.log(`Attached to MyToken contract at ${tokenContract.address}`);
 
     // 4. MINTING TOKENS
+
+    // Joshua mints tokens
     console.log(`Minting tokens for ${signerJoshua.address}`);
     let mintTx = await tokenContract.mint(signerJoshua.address, MINT_VALUE);
     let mintTxReceipt = await mintTx.wait();
