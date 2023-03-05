@@ -75,9 +75,17 @@ async function main () {
     let votingPowerHardeep = await tokenContract.getVotes(walletJoshua.address);
     console.log(`Hardeep has a vote power of ${ethers.utils.formatEther(votingPowerHardeep)} units`);
     // Check voting power for Chris before delegation
+    let votingPowerChris = await tokenContract.getVotes(walletChris.address);
+    console.log(`Chris has a vote power of ${ethers.utils.formatEther(votingPowerChris)} units`);
     // Check voting power for Lindsay before delegation
+    let votingPowerLindsay = await tokenContract.getVotes(walletLindsay.address);
+    console.log(`Lindsay has a vote power of ${ethers.utils.formatEther(votingPowerLindsay)} units`);
     // Check voting power for Owen before delegation
+    let votingPowerOwen = await tokenContract.getVotes(walletOwen.address);
+    console.log(`Owen has a vote power of ${ethers.utils.formatEther(votingPowerOwen)} units`);
     // Check voting power for Josh before delegation
+    let votingPowerJosh = await tokenContract.getVotes(walletJosh.address);
+    console.log(`Josh has a vote power of ${ethers.utils.formatEther(votingPowerJosh)} units`);
 
     // Self delegate for Joshua to create checkpoint and grant voting power (delegates everything we have)
     const delegateTxJoshua = await tokenContract.connect(walletJoshua).delegate(walletJoshua.address);
@@ -100,10 +108,18 @@ async function main () {
     votingPowerHardeep = await tokenContract.getVotes(walletJoshua.address);
     console.log(`Hardeep has a vote power of ${ethers.utils.formatEther(votingPowerHardeep)} units`);
     // Check voting power for Chris after delegation
+    votingPowerChris = await tokenContract.getVotes(walletChris.address);
+    console.log(`Chris has a vote power of ${ethers.utils.formatEther(votingPowerChris)} units`);
     // Check voting power for Lindsay after delegation
+    votingPowerLindsay = await tokenContract.getVotes(walletLindsay.address);
+    console.log(`Lindsay has a vote power of ${ethers.utils.formatEther(votingPowerLindsay)} units`);
     // Check voting power for Owen after delegation
+    votingPowerOwen = await tokenContract.getVotes(walletOwen.address);
+    console.log(`Owen has a vote power of ${ethers.utils.formatEther(votingPowerOwen)} units`);
     // Check voting power for Josh after delegation
-
+    votingPowerJosh = await tokenContract.getVotes(walletJosh.address);
+    console.log(`Josh has a vote power of ${ethers.utils.formatEther(votingPowerJosh)} units`);
+    
 }
 
 main().catch((error) => {
