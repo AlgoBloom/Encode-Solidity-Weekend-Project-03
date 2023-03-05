@@ -57,52 +57,52 @@ async function main() {
     const signerJosh = walletJosh.connect(provider);
 
     // 1: Attach Contract
-    const tokenCF = new MyToken__factory(signerJoshua);
+    const tokenContractFactory = new MyToken__factory(signerJoshua);
     console.log("Attaching to contract ...");
-    const tokenC = tokenCF.attach(TOKEN_CONTRACT_ADDRESS);
-    console.log(`Attached to MyToken contract at ${tokenC.address}`);
+    const tokenContract = tokenContractFactory.attach(TOKEN_CONTRACT_ADDRESS);
+    console.log(`Attached to MyToken contract at ${tokenContract.address}`);
 
     // 2: Minting tokens
     console.log(`Minting tokens for ${signerJoshua.address}`);
-    let mintTx = await tokenC.mint(signerJoshua.address, quantity);
+    let mintTx = await tokenContract.mint(signerJoshua.address, quantity);
     let mintTxReceipt = await mintTx.wait();
     console.log(`Minted tokens for ${signerJoshua.address} at block ${mintTxReceipt.blockNumber}`);
-    let tokenBalanceAccount = await tokenC.balanceOf(signerJoshua.address);
+    let tokenBalanceAccount = await tokenContract.balanceOf(signerJoshua.address);
     console.log(`Address ${signerJoshua.address} has a balance of ${ethers.utils.formatEther(tokenBalanceAccount)}\n`);
     
     console.log(`Minting tokens for ${signerHardeep.address}`);
-    mintTx = await tokenC.mint(signerHardeep.address, quantity);
+    mintTx = await tokenContract.mint(signerHardeep.address, quantity);
     mintTxReceipt = await mintTx.wait();
     console.log(`Minted tokens for ${signerHardeep.address} at block ${mintTxReceipt.blockNumber}`);
-    tokenBalanceAccount = await tokenC.balanceOf(signerHardeep.address);
+    tokenBalanceAccount = await tokenContract.balanceOf(signerHardeep.address);
     console.log(`Address ${signerHardeep.address} has a balance of ${ethers.utils.formatEther(tokenBalanceAccount)}\n`);
 
     console.log(`Minting tokens for ${signerChris.address}`);
-    mintTx = await tokenC.mint(signerChris.address, quantity);
+    mintTx = await tokenContract.mint(signerChris.address, quantity);
     mintTxReceipt = await mintTx.wait();
     console.log(`Minted tokens for ${signerChris.address} at block ${mintTxReceipt.blockNumber}`);
-    tokenBalanceAccount = await tokenC.balanceOf(signerChris.address);
+    tokenBalanceAccount = await tokenContract.balanceOf(signerChris.address);
     console.log(`Address ${signerChris.address} has a balance of ${ethers.utils.formatEther(tokenBalanceAccount)}\n`);
 
     console.log(`Minting tokens for ${signerLindsay.address}`);
-    mintTx = await tokenC.mint(signerLindsay.address, quantity)
+    mintTx = await tokenContract.mint(signerLindsay.address, quantity)
     mintTxReceipt = await mintTx.wait();
     console.log(`Minted tokens for ${signerLindsay.address} at block ${mintTxReceipt.blockNumber}`);
-    tokenBalanceAccount = await tokenC.balanceOf(signerLindsay.address);
+    tokenBalanceAccount = await tokenContract.balanceOf(signerLindsay.address);
     console.log(`Address ${signerLindsay.address} has a balance of ${ethers.utils.formatEther(tokenBalanceAccount)}\n`);
 
     console.log(`Minting tokens for ${signerOwen.address}`);
-    mintTx = await tokenC.mint(signerOwen.address, quantity);
+    mintTx = await tokenContract.mint(signerOwen.address, quantity);
     mintTxReceipt = await mintTx.wait();
     console.log(`Minted tokens for ${signerOwen.address} at block ${mintTxReceipt.blockNumber}`);
-    tokenBalanceAccount = await tokenC.balanceOf(signerOwen.address);
+    tokenBalanceAccount = await tokenContract.balanceOf(signerOwen.address);
     console.log(`Address ${signerOwen.address} has a balance of ${ethers.utils.formatEther(tokenBalanceAccount)}\n`);
 
     console.log(`Minting tokens for ${signerJosh.address}`);
-    mintTx = await tokenC.mint(signerJosh.address, quantity);
+    mintTx = await tokenContract.mint(signerJosh.address, quantity);
     mintTxReceipt = await mintTx.wait();
     console.log(`Minted tokens for ${signerJosh.address} at block ${mintTxReceipt.blockNumber}`);
-    tokenBalanceAccount = await tokenC.balanceOf(signerJosh.address);
+    tokenBalanceAccount = await tokenContract.balanceOf(signerJosh.address);
     console.log(`Address ${signerJosh.address} has a balance of ${ethers.utils.formatEther(tokenBalanceAccount)}\n`);
 }
 
