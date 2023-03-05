@@ -3,6 +3,7 @@
 import { MyToken, MyToken__factory } from "../typechain-types";
 import { ethers, Wallet } from 'ethers';
 import * as dotenv from 'dotenv';
+import { token } from "../typechain-types/@openzeppelin/contracts";
 dotenv.config();
 
 const MINT_VALUE = ethers.utils.parseEther("10");
@@ -67,14 +68,41 @@ async function main () {
 
                     // 4. DELEGATE TOKENS FOR VOTING POWER
 
+    // Check voting power for Joshua before delegation
+    let votingPowerJoshua = await tokenContract.getVotes(walletJoshua.address);
+    console.log(`Joshua has a vote power of ${ethers.utils.formatEther(votingPowerJoshua)} units`);
+    // Check voting power for Hardeep before delegation
+    let votingPowerHardeep = await tokenContract.getVotes(walletJoshua.address);
+    console.log(`Hardeep has a vote power of ${ethers.utils.formatEther(votingPowerHardeep)} units`);
+    // Check voting power for Chris before delegation
+    // Check voting power for Lindsay before delegation
+    // Check voting power for Owen before delegation
+    // Check voting power for Josh before delegation
+
     // Self delegate for Joshua to create checkpoint and grant voting power (delegates everything we have)
     const delegateTxJoshua = await tokenContract.connect(walletJoshua).delegate(walletJoshua.address);
-    const delegateTxReceipt1 = await delegateTxJoshua.wait();
-    console.log(`Tokens delegated for ${walletJoshua.address} at block: ${delegateTxReceipt1.blockNumber}`);
+    const delegateTxReceiptJoshua = await delegateTxJoshua.wait();
+    console.log(`Tokens delegated for ${walletJoshua.address} at block: ${delegateTxReceiptJoshua.blockNumber}`);
+    // Self delegate for Hardeep to create checkpoint and grant voting power (delegates everything we have)
+    const delegateTxHardeep = await tokenContract.connect(walletHardeep).delegate(walletHardeep.address);
+    const delegateTxReceiptHardeep = await delegateTxHardeep.wait();
+    console.log(`Tokens delegated for ${walletHardeep.address} at block: ${delegateTxReceiptHardeep.blockNumber}`);
+    // Self delegate for Chris to create checkpoint and grant voting power (delegates everything we have)
+    // Self delegate for Lindsay to create checkpoint and grant voting power (delegates everything we have)
+    // Self delegate for Owen to create checkpoint and grant voting power (delegates everything we have)
+    // Self delegate for Josh to create checkpoint and grant voting power (delegates everything we have)
 
-    // Check voting power for Joshua after delegation
-    votePowerAccount2 = await contract.getVotes(account1.address);
-    console.log(`Account 1 has a vote power of ${ethers.utils.formatEther(votePowerAccount1)} units`);
+
+    // Check voting power for Joshua before delegation
+    votingPowerJoshua = await tokenContract.getVotes(walletJoshua.address);
+    console.log(`Joshua has a vote power of ${ethers.utils.formatEther(votingPowerJoshua)} units`);
+    // Check voting power for Hardeep before delegation
+    votingPowerHardeep = await tokenContract.getVotes(walletJoshua.address);
+    console.log(`Hardeep has a vote power of ${ethers.utils.formatEther(votingPowerHardeep)} units`);
+    // Check voting power for Chris after delegation
+    // Check voting power for Lindsay after delegation
+    // Check voting power for Owen after delegation
+    // Check voting power for Josh after delegation
 
 }
 
