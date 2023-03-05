@@ -1,9 +1,6 @@
-
-
 // WORK IN PROGRESS //
 
-
-import { MyToken, MyToken__factory, Ballot__factory } from "../typechain-types";
+import { MyToken, Ballot__factory } from "../typechain-types";
 import { ethers, Wallet } from 'ethers';
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -70,7 +67,7 @@ async function main () {
 
 
 
-                    
+
     const contractFactory = new MyToken__factory(signerJoshua);
     const contract: MyToken = await contractFactory.deploy();
     const deployTransactionReceipt = await contract.deployTransaction.wait();
