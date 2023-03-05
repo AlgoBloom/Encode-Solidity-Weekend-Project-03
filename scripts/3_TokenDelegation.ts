@@ -96,10 +96,21 @@ async function main () {
     const delegateTxReceiptHardeep = await delegateTxHardeep.wait();
     console.log(`Tokens delegated for ${walletHardeep.address} at block: ${delegateTxReceiptHardeep.blockNumber}`);
     // Self delegate for Chris to create checkpoint and grant voting power (delegates everything we have)
+    const delegateTxChris = await tokenContract.connect(walletChris).delegate(walletChris.address);
+    const delegateTxReceiptChris = await delegateTxChris.wait();
+    console.log(`Tokens delegated for ${walletChris.address} at block: ${delegateTxReceiptChris.blockNumber}`);
     // Self delegate for Lindsay to create checkpoint and grant voting power (delegates everything we have)
+    const delegateTxLindsay = await tokenContract.connect(walletLindsay).delegate(walletLindsay.address);
+    const delegateTxReceiptLindsay = await delegateTxLindsay.wait();
+    console.log(`Tokens delegated for ${walletLindsay.address} at block: ${delegateTxReceiptLindsay.blockNumber}`);
     // Self delegate for Owen to create checkpoint and grant voting power (delegates everything we have)
+    const delegateTxOwen = await tokenContract.connect(walletOwen).delegate(walletOwen.address);
+    const delegateTxReceiptOwen = await delegateTxOwen.wait();
+    console.log(`Tokens delegated for ${walletOwen.address} at block: ${delegateTxReceiptOwen.blockNumber}`);
     // Self delegate for Josh to create checkpoint and grant voting power (delegates everything we have)
-
+    const delegateTxJosh = await tokenContract.connect(walletJosh).delegate(walletJosh.address);
+    const delegateTxReceiptJosh = await delegateTxJosh.wait();
+    console.log(`Tokens delegated for ${walletJosh.address} at block: ${delegateTxReceiptJosh.blockNumber}`);
 
     // Check voting power for Joshua before delegation
     votingPowerJoshua = await tokenContract.getVotes(walletJoshua.address);
@@ -119,61 +130,10 @@ async function main () {
     // Check voting power for Josh after delegation
     votingPowerJosh = await tokenContract.getVotes(walletJosh.address);
     console.log(`Josh has a vote power of ${ethers.utils.formatEther(votingPowerJosh)} units`);
-    
+
 }
 
 main().catch((error) => {
     console.log(error);
     process.exitCode = 1;
 });
-
-///
-
-// import { ethers, Wallet } from 'ethers';
-// import * as dotenv from 'dotenv';
-// import { Ballot__factory } from '../typechain-types';
-// dotenv.config();
-
-// function convertStringArrayToBytes32(array: string[]) {
-//   const bytes32Array = [];
-//   for (let index = 0; index < array.length; index++) {
-//       bytes32Array.push(ethers.utils.formatBytes32String(array[index]));
-//   }
-//   return bytes32Array;
-// }
-
-// async function main () {
-//   const args = process.argv;
-//   const proposals = args.slice(2);
-//   if (proposals.length <= 0) throw new Error("Missing parameters: proposals");
-
-//   const provider = ethers.getDefaultProvider("goerli");
-//   const mnemonic = process.env.MNEMONIC;
-//   if(!mnemonic || mnemonic.length <= 0) throw new Error("Missing environment: mnemonic seed");
-//   const wallet = ethers.Wallet.fromMnemonic(mnemonic);
-//   console.log(`Connected to the wallet address ${wallet.address}`);
-
-//   const signer = wallet.connect(provider);
-//   const balance = await signer.getBalance();
-//   console.log(`Wallet balance: ${balance} Wei`);
-
-//   console.log("Deploying Ballot contract!");
-//   console.log("Proposals: ");
-//   proposals.forEach((element, index) => {
-//     console.log(`Proposal N. ${index + 1}: ${element}`);
-//   });
-//   const ballotContractFactory = new Ballot__factory(signer);
-//   console.log("Deploying contract ...");
-
-//   const ballotContract = await ballotContractFactory.deploy(
-//       convertStringArrayToBytes32(proposals)
-//   );
-//   const deployTxReceipt = await ballotContract.deployTransaction.wait();
-//   console.log(`The Ballot contract was deployed at the address ${ballotContract.address}`);
-//   console.log({deployTxReceipt});
-// }
-
-// main().catch((error) => {
-//   console.error(error);
-//   process.exitCode = 1;
-// });
