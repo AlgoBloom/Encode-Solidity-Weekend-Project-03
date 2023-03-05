@@ -8,11 +8,11 @@ function convertStringArrayToBytes32(array: string[]) {
     for (let index = 0; index < array.length; index++) {
         bytes32Array.push(ethers.utils.formatBytes32String(array[index]));
     }
+
     return bytes32Array;
   }
 
 async function main () {
-
     // get test accounts
     const [deployer, account1, account2] = await ethers.getSigners();
     // Deploy the contract
@@ -107,7 +107,6 @@ async function main () {
 
                     // 3. CASTING VOTES
 
-
     // account1 casts one vote for strawberry, the 0 indexed arg
     console.log("Account 1 votes twice for strawberry")
     const voteTx1 = await ballotContract.connect(account1).vote(0, ethers.utils.parseEther("2"));
@@ -122,7 +121,6 @@ async function main () {
 
                     // 4. CHECKING VOTE POWER
 
-
     // checks voting power spent for account 1
     let votingPowerRemainingAcct1 = await ballotContract.connect(account1).votingPower(account1.address);
     console.log(`account1 has a remaining voting power of ${votingPowerRemainingAcct1}`)
@@ -131,15 +129,12 @@ async function main () {
     let votingPowerRemainingAcct2 = await ballotContract.connect(account1).votingPower(account2.address);
     console.log(`account1 has a remaining voting power of ${votingPowerRemainingAcct2}`)
 
-
                     // 5. QUERYING RESULTS
-
 
     // checks the winner
     const winner = await ballotContract.winnerName();
     const winnerFormatted = ethers.utils.parseBytes32String(winner);
     console.log(`The winner is ${winnerFormatted}!`)
-
 }
 
 main().catch((error) => {

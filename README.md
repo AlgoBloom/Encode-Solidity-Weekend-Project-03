@@ -15,6 +15,7 @@ npx hardhat run scripts/deploy.ts
 yarn run ts-node --files ./scripts/TokenizedBallot.ts "strawberry" "caramel" "chocolate"
 yarn run ts-node --files ./scripts/Deployment.ts 
 
+```ts
 import { MyToken, MyToken__factory, Ballot__factory } from "../typechain-types";
 import { ethers } from "hardhat";
 
@@ -163,3 +164,4 @@ main().catch((error) => {
     console.log(error);
     process.exitCode = 1;
 });
+```

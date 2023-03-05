@@ -2,7 +2,7 @@ import { ethers } from "hardhat";
 import { MyToken__factory } from "../typechain-types";
 require("dotenv").config();
 
-const TOKEN_CONTRACT_ADDRESS = "<TO_DO_INSERT_DEPLOYED_TOKEN_CONTRACT";
+const TOKEN_CONTRACT_ADDRESS = "0xC9284c151C922B5BB2EB5fe0c1E603d551C55e94";
 
 async function main() {
     // Accept and validate address input - only one address at a time
@@ -33,7 +33,6 @@ async function main() {
     console.log({ TxReceipt });
     console.log("Minting role granted");
 }
-
 
 main().catch((error) => {
     console.error(error);
