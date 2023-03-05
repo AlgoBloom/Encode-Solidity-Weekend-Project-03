@@ -3,7 +3,7 @@ import { ethers, Wallet } from 'ethers';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-const BALLOT_CONTRACT_ADDRESS = "0xf7449fDAd12a6A70A7265476CD8B090F04E34D66";
+const BALLOT_CONTRACT_ADDRESS = "0xa214cd83F26D99f93303d2c549Bf23daD92AD8F7";
 
 async function main () {
     
@@ -61,36 +61,42 @@ async function main () {
     console.log(`Attached to TokenizedBallot contract at ${ballotContract.address}`);
 
                     // 4. VOTE
+    // // Joshua voting power before vote 
+    // let votingPower = await ballotContract.votingPower(walletJoshua.address);
+    // console.log({votingPower});
+    // // Hardeep voting power before vote 
+    // votingPower = await ballotContract.connect(signerHardeep).votingPower(walletHardeep.address);
+    // console.log({votingPower});
 
     // Joshua casts 1 vote for strawberry, the 0 indexed arg
     console.log("Joshua votes once for strawberry")
     const voteTxJoshua1 = await ballotContract.connect(signerJoshua).vote(0, ethers.utils.parseEther("1"));
     const voteTxJoshua1Receipt = await voteTxJoshua1.wait();
-    // // Joshua casts one vote for chocolate, the 2 indexed arg
-    // console.log("Joshua votes once for chocolate")
-    // const voteTxJoshua2 = await ballotContract.connect(signerJoshua).vote(2, ethers.utils.parseEther("1"));
-    // const voteTxJoshua2Receipt = await voteTxJoshua2.wait();
-    // // Hardeep casts two votes for caramel, the 1 indexed arg
-    // console.log("Hardeep votes once for caramel")
-    // const voteTxHardeep = await ballotContract.connect(signerHardeep).vote(1, ethers.utils.parseEther("1"));
-    // const voteTxHardeepReceipt = await voteTxHardeep.wait();
-    // console.log(`Hardeep's vote is recorded in block ${voteTxHardeepReceipt.blockNumber}`);
-    // // Chris casts 5 votes for strawberry, the 0 indexed arg
-    // console.log("Chris votes 5 times for strawberry")
-    // const voteTxChris = await ballotContract.connect(signerChris).vote(0, ethers.utils.parseEther("5"));
-    // const voteTxChrisReceipt = await voteTxChris.wait();
-    // // Lindsay casts 3 votes for caramel, the 1 indexed arg
-    // console.log("Lindsay votes 3 times for caramel")
-    // const voteTxLindsay = await ballotContract.connect(signerLindsay).vote(1, ethers.utils.parseEther("3"));
-    // const voteTxLindsayReceipt = await voteTxLindsay.wait();
-    // // Owen casts 5 votes for chocolate, the 2 indexed arg
-    // console.log("Owen votes 5 times for chocolate")
-    // const voteTxOwen = await ballotContract.connect(signerOwen).vote(2, ethers.utils.parseEther("5"), );
-    // const voteTxOwenReceipt = await voteTxOwen.wait();
-    // // Josh casts 3 votes for strawberry, the 0 indexed arg
-    // console.log("Josh votes 3 times for strawberry")
-    // const voteTxJosh = await ballotContract.connect(signerJosh).vote(0, ethers.utils.parseEther("3"));
-    // const voteTxJoshReceipt = await voteTxJosh.wait();
+    // Joshua casts one vote for chocolate, the 2 indexed arg
+    console.log("Joshua votes once for chocolate")
+    const voteTxJoshua2 = await ballotContract.connect(signerJoshua).vote(2, ethers.utils.parseEther("1"));
+    const voteTxJoshua2Receipt = await voteTxJoshua2.wait();
+    // Hardeep casts two votes for caramel, the 1 indexed arg
+    console.log("Hardeep votes once for caramel")
+    const voteTxHardeep = await ballotContract.connect(signerHardeep).vote(1, ethers.utils.parseEther("1"));
+    const voteTxHardeepReceipt = await voteTxHardeep.wait();
+    console.log(`Hardeep's vote is recorded in block ${voteTxHardeepReceipt.blockNumber}`);
+    // Chris casts 5 votes for strawberry, the 0 indexed arg
+    console.log("Chris votes 5 times for chocolate")
+    const voteTxChris = await ballotContract.connect(signerChris).vote(2, ethers.utils.parseEther("5"));
+    const voteTxChrisReceipt = await voteTxChris.wait();
+    // Lindsay casts 3 votes for caramel, the 1 indexed arg
+    console.log("Lindsay votes 3 times for caramel")
+    const voteTxLindsay = await ballotContract.connect(signerLindsay).vote(1, ethers.utils.parseEther("3"));
+    const voteTxLindsayReceipt = await voteTxLindsay.wait();
+    // Owen casts 5 votes for chocolate, the 2 indexed arg
+    console.log("Owen votes 5 times for chocolate")
+    const voteTxOwen = await ballotContract.connect(signerOwen).vote(2, ethers.utils.parseEther("5"), );
+    const voteTxOwenReceipt = await voteTxOwen.wait();
+    // Josh casts 3 votes for strawberry, the 0 indexed arg
+    console.log("Josh votes 3 times for strawberry")
+    const voteTxJosh = await ballotContract.connect(signerJosh).vote(0, ethers.utils.parseEther("3"));
+    const voteTxJoshReceipt = await voteTxJosh.wait();
 }
 
 main().catch((error) => {

@@ -130,7 +130,7 @@ async function main () {
     // Check voting power for Josh after delegation
     votingPowerJosh = await tokenContract.getPastVotes(walletJosh.address, delegateTxReceiptJosh.blockNumber);
     console.log(`Josh has a vote power of ${ethers.utils.formatEther(votingPowerJosh)} units`);
-
+    
 }
 
 main().catch((error) => {

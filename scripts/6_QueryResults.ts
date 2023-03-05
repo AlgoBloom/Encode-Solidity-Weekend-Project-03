@@ -3,7 +3,7 @@ import { ethers, Wallet } from 'ethers';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-const BALLOT_CONTRACT_ADDRESS = "0xf7449fDAd12a6A70A7265476CD8B090F04E34D66";
+const BALLOT_CONTRACT_ADDRESS = "0xa214cd83F26D99f93303d2c549Bf23daD92AD8F7";
 
 async function main () {
     
