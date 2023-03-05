@@ -47,7 +47,7 @@ async function main() {
     const walletJosh = new ethers.Wallet(Owen_Pk);
     console.log(`Connected to Josh's wallet address: ${walletJosh.address}`);
                     
-                    // 2. CREATE SIGNERS FROM WALLET
+    // 2. CREATE SIGNERS FROM WALLET
 
     const signerJoshua = walletJoshua.connect(provider);
     const signerHardeep = walletHardeep.connect(provider);
@@ -56,13 +56,14 @@ async function main() {
     const signerOwen = walletOwen.connect(provider);
     const signerJosh = walletJosh.connect(provider);
 
-    // 1: Attach Contract
+    // 3. ATTACH CONTRACT
+    // Joshua attaches to the contract and instantiates it
     const tokenContractFactory = new MyToken__factory(signerJoshua);
     console.log("Attaching to contract ...");
     const tokenContract = tokenContractFactory.attach(TOKEN_CONTRACT_ADDRESS);
     console.log(`Attached to MyToken contract at ${tokenContract.address}`);
 
-    // 2: Minting tokens
+    // 4. MINTING TOKENS
     console.log(`Minting tokens for ${signerJoshua.address}`);
     let mintTx = await tokenContract.mint(signerJoshua.address, quantity);
     let mintTxReceipt = await mintTx.wait();
