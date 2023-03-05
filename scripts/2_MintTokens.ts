@@ -2,7 +2,7 @@ import { ethers } from "hardhat";
 import { MyToken__factory } from "../typechain-types";
 require("dotenv").config();
 
-const TOKEN_CONTRACT_ADDRESS = "0x277E11D18C020a83F769009B159062B93eb5634f";
+const TOKEN_CONTRACT_ADDRESS = "0xC9284c151C922B5BB2EB5fe0c1E603d551C55e94";
 
 const MINT_VALUE = ethers.utils.parseEther("10");
 

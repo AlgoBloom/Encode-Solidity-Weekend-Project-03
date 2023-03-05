@@ -5,9 +5,9 @@ dotenv.config();
 
 const MINT_VALUE = ethers.utils.parseEther("10");
 
-const TOKEN_CONTRACT_ADDRESS = "0x277E11D18C020a83F769009B159062B93eb5634f";
+const TOKEN_CONTRACT_ADDRESS = "0xC9284c151C922B5BB2EB5fe0c1E603d551C55e94";
 
-const TARGET_BLOCK_NUMBER = "8599985";
+const TARGET_BLOCK_NUMBER = "8600447";
 
 function convertStringArrayToBytes32(array: string[]) {
     const bytes32Array = [];
