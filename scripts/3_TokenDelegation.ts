@@ -4,11 +4,12 @@ import { MyToken, MyToken__factory } from "../typechain-types";
 import { ethers, Wallet } from 'ethers';
 import * as dotenv from 'dotenv';
 import { token } from "../typechain-types/@openzeppelin/contracts";
+import { waitForDebugger } from "inspector";
 dotenv.config();
 
 const MINT_VALUE = ethers.utils.parseEther("10");
 
-const TOKEN_CONTRACT_ADDRESS = "0x907a1081532193BD81F91fb6FbAd979Bb408dda3";
+const TOKEN_CONTRACT_ADDRESS = "0x277E11D18C020a83F769009B159062B93eb5634f";
 
 async function main () {
     
@@ -25,7 +26,7 @@ async function main () {
     // instantiate wallet for Hardeep
     const Hardeep_Pk = process.env.PRIVATE_KEY_HARDEEP;
     if(!Hardeep_Pk || Hardeep_Pk.length <= 0) throw new Error("Missing environment: private key for Hardeep");
-    const walletHardeep = new ethers.Wallet(Joshua_Pk);
+    const walletHardeep = new ethers.Wallet(Hardeep_Pk);
     console.log(`Connected to Hardeep's wallet address: ${walletHardeep.address}`);
     // instantiate wallet for Chris
     const Chris_Pk = process.env.PRIVATE_KEY_CHRIS;
@@ -45,7 +46,7 @@ async function main () {
     // instantiate wallet for Josh
     const Josh_Pk = process.env.PRIVATE_KEY_JOSH;
     if(!Josh_Pk || Josh_Pk.length <= 0) throw new Error("Missing environment: private key for Josh");
-    const walletJosh = new ethers.Wallet(Owen_Pk);
+    const walletJosh = new ethers.Wallet(Josh_Pk);
     console.log(`Connected to Josh's wallet address: ${walletJosh.address}`);
                     
                     // 2. CREATE SIGNERS FROM WALLET
@@ -71,19 +72,19 @@ async function main () {
     let votingPowerJoshua = await tokenContract.getVotes(walletJoshua.address);
     console.log(`Joshua has a vote power of ${ethers.utils.formatEther(votingPowerJoshua)} units`);
     // Check voting power for Hardeep before delegation
-    let votingPowerHardeep = await tokenContract.getVotes(walletHardeep.address);
+    let votingPowerHardeep = await tokenContract.connect(signerHardeep).getVotes(walletHardeep.address);
     console.log(`Hardeep has a vote power of ${ethers.utils.formatEther(votingPowerHardeep)} units`);
     // Check voting power for Chris before delegation
-    let votingPowerChris = await tokenContract.getVotes(walletChris.address);
+    let votingPowerChris = await tokenContract.connect(signerChris).getVotes(walletChris.address);
     console.log(`Chris has a vote power of ${ethers.utils.formatEther(votingPowerChris)} units`);
     // Check voting power for Lindsay before delegation
-    let votingPowerLindsay = await tokenContract.getVotes(walletLindsay.address);
+    let votingPowerLindsay = await tokenContract.connect(signerLindsay).getVotes(walletLindsay.address);
     console.log(`Lindsay has a vote power of ${ethers.utils.formatEther(votingPowerLindsay)} units`);
     // Check voting power for Owen before delegation
-    let votingPowerOwen = await tokenContract.getVotes(walletOwen.address);
+    let votingPowerOwen = await tokenContract.connect(signerOwen).getVotes(walletOwen.address);
     console.log(`Owen has a vote power of ${ethers.utils.formatEther(votingPowerOwen)} units`);
     // Check voting power for Josh before delegation
-    let votingPowerJosh = await tokenContract.getVotes(walletJosh.address);
+    let votingPowerJosh = await tokenContract.connect(signerJosh).getVotes(walletJosh.address);
     console.log(`Josh has a vote power of ${ethers.utils.formatEther(votingPowerJosh)} units`);
 
     // Self delegate for Joshua to create checkpoint and grant voting power (delegates everything we have)
@@ -91,43 +92,43 @@ async function main () {
     const delegateTxReceiptJoshua = await delegateTxJoshua.wait();
     console.log(`Tokens delegated for ${walletJoshua.address} at block: ${delegateTxReceiptJoshua.blockNumber}`);
     // Self delegate for Hardeep to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxHardeep = await tokenContract.delegate(walletHardeep.address);
+    const delegateTxHardeep = await tokenContract.connect(signerHardeep).delegate(walletHardeep.address);
     const delegateTxReceiptHardeep = await delegateTxHardeep.wait();
     console.log(`Tokens delegated for ${walletHardeep.address} at block: ${delegateTxReceiptHardeep.blockNumber}`);
     // Self delegate for Chris to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxChris = await tokenContract.delegate(walletChris.address);
+    const delegateTxChris = await tokenContract.connect(signerChris).delegate(walletChris.address);
     const delegateTxReceiptChris = await delegateTxChris.wait();
     console.log(`Tokens delegated for ${walletChris.address} at block: ${delegateTxReceiptChris.blockNumber}`);
     // Self delegate for Lindsay to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxLindsay = await tokenContract.delegate(walletLindsay.address);
+    const delegateTxLindsay = await tokenContract.connect(signerLindsay).delegate(walletLindsay.address);
     const delegateTxReceiptLindsay = await delegateTxLindsay.wait();
     console.log(`Tokens delegated for ${walletLindsay.address} at block: ${delegateTxReceiptLindsay.blockNumber}`);
     // Self delegate for Owen to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxOwen = await tokenContract.delegate(walletOwen.address);
+    const delegateTxOwen = await tokenContract.connect(signerOwen).delegate(walletOwen.address);
     const delegateTxReceiptOwen = await delegateTxOwen.wait();
     console.log(`Tokens delegated for ${walletOwen.address} at block: ${delegateTxReceiptOwen.blockNumber}`);
     // Self delegate for Josh to create checkpoint and grant voting power (delegates everything we have)
-    const delegateTxJosh = await tokenContract.delegate(walletJosh.address);
+    const delegateTxJosh = await tokenContract.connect(signerJosh).delegate(walletJosh.address);
     const delegateTxReceiptJosh = await delegateTxJosh.wait();
     console.log(`Tokens delegated for ${walletJosh.address} at block: ${delegateTxReceiptJosh.blockNumber}`);
 
     // Check voting power for Joshua before delegation
-    votingPowerJoshua = await tokenContract.getVotes(walletJoshua.address);
+    votingPowerJoshua = await tokenContract.getPastVotes(walletJoshua.address, delegateTxReceiptJoshua.blockNumber);
     console.log(`Joshua has a vote power of ${ethers.utils.formatEther(votingPowerJoshua)} units`);
     // Check voting power for Hardeep before delegation
-    votingPowerHardeep = await tokenContract.getVotes(walletHardeep.address);
+    votingPowerHardeep = await tokenContract.getPastVotes(walletHardeep.address, delegateTxReceiptHardeep.blockNumber);
     console.log(`Hardeep has a vote power of ${ethers.utils.formatEther(votingPowerHardeep)} units`);
     // Check voting power for Chris after delegation
-    votingPowerChris = await tokenContract.getVotes(walletChris.address);
+    votingPowerChris = await tokenContract.getPastVotes(walletChris.address, delegateTxReceiptChris.blockNumber);
     console.log(`Chris has a vote power of ${ethers.utils.formatEther(votingPowerChris)} units`);
     // Check voting power for Lindsay after delegation
-    votingPowerLindsay = await tokenContract.getVotes(walletLindsay.address);
+    votingPowerLindsay = await tokenContract.getPastVotes(walletLindsay.address, delegateTxReceiptLindsay.blockNumber);
     console.log(`Lindsay has a vote power of ${ethers.utils.formatEther(votingPowerLindsay)} units`);
     // Check voting power for Owen after delegation
-    votingPowerOwen = await tokenContract.getVotes(walletOwen.address);
+    votingPowerOwen = await tokenContract.getPastVotes(walletOwen.address, delegateTxReceiptOwen.blockNumber);
     console.log(`Owen has a vote power of ${ethers.utils.formatEther(votingPowerOwen)} units`);
     // Check voting power for Josh after delegation
-    votingPowerJosh = await tokenContract.getVotes(walletJosh.address);
+    votingPowerJosh = await tokenContract.getPastVotes(walletJosh.address, delegateTxReceiptJosh.blockNumber);
     console.log(`Josh has a vote power of ${ethers.utils.formatEther(votingPowerJosh)} units`);
 
 }

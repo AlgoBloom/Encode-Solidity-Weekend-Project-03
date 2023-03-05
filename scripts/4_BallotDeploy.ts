@@ -9,7 +9,7 @@ const MINT_VALUE = ethers.utils.parseEther("10");
 
 const TOKEN_CONTRACT_ADDRESS = "0x62e1B19944b55022988F94687c1097fCe1F23a1d";
 
-const TARGET_BLOCK_NUMBER = "";
+const TARGET_BLOCK_NUMBER = "8599985";
 
 function convertStringArrayToBytes32(array: string[]) {
     const bytes32Array = [];

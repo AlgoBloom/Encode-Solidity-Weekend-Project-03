@@ -28,7 +28,7 @@ async function main () {
     // instantiate wallet for Hardeep
     const Hardeep_Pk = process.env.PRIVATE_KEY_HARDEEP;
     if(!Hardeep_Pk || Hardeep_Pk.length <= 0) throw new Error("Missing environment: private key for Hardeep");
-    const walletHardeep = new ethers.Wallet(Joshua_Pk);
+    const walletHardeep = new ethers.Wallet(Hardeep_Pk);
     console.log(`Connected to Hardeep's wallet address: ${walletHardeep.address}`);
     // instantiate wallet for Chris
     const Chris_Pk = process.env.PRIVATE_KEY_CHRIS;
@@ -48,7 +48,7 @@ async function main () {
     // instantiate wallet for Josh
     const Josh_Pk = process.env.PRIVATE_KEY_JOSH;
     if(!Josh_Pk || Josh_Pk.length <= 0) throw new Error("Missing environment: private key for Josh");
-    const walletJosh = new ethers.Wallet(Owen_Pk);
+    const walletJosh = new ethers.Wallet(Josh_Pk);
     console.log(`Connected to Josh's wallet address: ${walletJosh.address}`);
                     
                     // 2. CREATE SIGNERS FROM WALLET
