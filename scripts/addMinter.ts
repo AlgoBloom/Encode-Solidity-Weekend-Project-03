@@ -2,7 +2,7 @@ import { ethers } from "hardhat";
 import { MyToken__factory } from "../typechain-types";
 require("dotenv").config();
 
-const TOKEN_CONTRACT_ADDRESS = "<TO_DO_INSERT_DEPLOYED_TOKEN_CONTRACT";
+const TOKEN_CONTRACT_ADDRESS = "<TO_DO_INSERT_DEPLOYED_TOKEN_CONTRACT>";
 
 async function main() {
     // Accept and validate address input - only one address at a time
