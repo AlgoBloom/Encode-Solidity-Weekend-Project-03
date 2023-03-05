@@ -12,7 +12,7 @@ npx hardhat node
 npx hardhat run scripts/deploy.ts
 ```
 
-yarn run ts-node --files ./scripts/TokenizedBallot.ts "strawberry" "caramel" "chocolate"
+yarn run ts-node --files ./scripts/4_BallotDeploy.ts "strawberry" "caramel" "chocolate"
 yarn run ts-node --files ./scripts/Deployment.ts 
 
 import { MyToken, MyToken__factory, Ballot__factory } from "../typechain-types";
