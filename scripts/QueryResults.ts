@@ -2,7 +2,7 @@ import {ethers} from 'hardhat';
 import {Ballot__factory} from '../typechain-types';
 require('dotenv').config();
 
-const TOKEN_CONTRACT_ADDRESS = '<TO_DO_INSERT_DEPLOYED_TOKEN_CONTRACT';
+const TOKEN_CONTRACT_ADDRESS = '0xD1B95B52f0818834d8a52Df183D1d1Fa0DA75591';
 
 async function main() {
     // prepare signer
